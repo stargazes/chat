@@ -30,6 +30,7 @@ func wsHandle(w http.ResponseWriter,r *http.Request)  {
         return
     }
     if conn,err=impl.InitConnection(wsConn);err!=nil{
+        log.Println("握手失败")
         goto ERR
     }
     //启动线程
@@ -56,10 +57,12 @@ func wsHandle(w http.ResponseWriter,r *http.Request)  {
 }
 
 func main() {
-    http.HandleFunc("/ws",wsHandle)
+    http.HandleFunc("/",wsHandle)
     //http.ListenAndServe("0.0.0.0:9990",nil)
     if err := http.ListenAndServe(":10001", nil); err != nil {
         log.Fatal("ListenAndServe:", err)
+    }else {
+        log.Println("websocket创建成功")
     }
 
     //tools.Eloquent.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.User{}) //自动生成表格
