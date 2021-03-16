@@ -2,6 +2,7 @@ package main
 
 import (
     "chat/impl"
+    "github.com/gin-gonic/gin"
     "github.com/gorilla/websocket"
     "log"
     "net/http"
@@ -9,64 +10,59 @@ import (
 )
 
 var (
-    upgrader = websocket.Upgrader{
-        //允许跨域
-        CheckOrigin: func(r *http.Request) bool {
-            return true
-        },
-    }
+   upgrader = websocket.Upgrader{
+       //允许跨域
+       CheckOrigin: func(r *http.Request) bool {
+           return true
+       },
+   }
 )
 
-func wsHandle(w http.ResponseWriter,r *http.Request)  {
-    var(
-        wsConn *websocket.Conn
-        err error
-        conn*impl.Connection
-        data []byte
-    )
-    //完成ws协议的握手操作
-    //upgrade:websocket
-    if wsConn,err = upgrader.Upgrade(w,r,nil);err !=nil{
-        return
-    }
-    if conn,err=impl.InitConnection(wsConn);err!=nil{
-        log.Println("握手失败")
-        goto ERR
-    }
-    //启动线程
-    go func() {
-        var (err error)
-        for {
-            if err =conn.WriteMessage([]byte("heartbeat"));err!=nil{
-                return
-            }
-            time.Sleep(1*time.Second)
-        }
-    }()
-    for {
-        if data,err=conn.ReadMessage();err!=nil{
-            goto ERR
-        }
-        if err = conn.WriteMessage(data);err!=nil {
-            goto ERR
-        }
-    }
-    ERR:
-        conn.Close()
+func wsHandle(c *gin.Context)  {
+   var(
+       wsConn *websocket.Conn
+       err error
+       conn*impl.Connection
+       data []byte
+   )
+   //完成ws协议的握手操作
+   //upgrade:websocket
+   if wsConn,err = upgrader.Upgrade(c.Writer,c.Request,nil);err !=nil{
+       return
+   }
+   if conn,err=impl.InitConnection(wsConn);err!=nil{
+       log.Println("握手失败")
+       goto ERR
+   }
+   //启动线程
+   //心跳包维持链接
+   go func() {
+       var (err error)
+       for {
+           if err =conn.WriteMessage([]byte("heartbeat"));err!=nil{
+               return
+           }
+           time.Sleep(1*time.Second)
+       }
+   }()
+   for {
+       if data,err=conn.ReadMessage();err!=nil{
+           goto ERR
+       }
+       if err = conn.WriteMessage(data);err!=nil {
+           goto ERR
+       }
+   }
+   ERR:
+       conn.Close()
 
 }
 
 func main() {
-    http.HandleFunc("/",wsHandle)
-    //http.ListenAndServe("0.0.0.0:9990",nil)
-    if err := http.ListenAndServe(":10001", nil); err != nil {
-        log.Fatal("ListenAndServe:", err)
-    }else {
-        log.Println("websocket创建成功")
-    }
 
     //tools.Eloquent.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.User{}) //自动生成表格
-    //r := gin.Default()
+    r := gin.Default()
+    r.GET("/ws",wsHandle)
     //conn := tools.RedisPool.Get()
     //
     //if conn == nil {
@@ -96,12 +92,12 @@ func main() {
     //
     //tools.Eloquent.First(&user, 1)
     //
-    //r.GET("/", func(c *gin.Context) {
-    //    c.JSON(http.StatusOK, gin.H{
-    //        "message":  value,
-    //        "userInfo": user,
-    //    })
-    //})
-    //r.Run()
+    r.GET("/test", func(c *gin.Context) {
+       c.JSON(http.StatusOK, gin.H{
+           "message":  "123",
+           "userInfo": "user",
+       })
+    })
+    r.Run()
 
 }

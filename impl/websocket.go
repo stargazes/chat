@@ -76,7 +76,7 @@ func (conn *Connection)readLoop()  {
         }
         //阻塞，等待inChan有空闲为止
         select {
-        case conn.inChan<-data:
+        case conn.inChan<-data://发送data 到channel中
         case <-conn.closeChan:
             goto ERR
         }
@@ -93,7 +93,7 @@ func (conn *Connection)writeLoop()  {
     )
     for{
         select {
-        case data=<-conn.outChan:
+        case data=<-conn.outChan://从channel中取得data
         case <-conn.closeChan:
             goto ERR
         }
