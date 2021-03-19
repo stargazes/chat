@@ -1,6 +1,7 @@
 package main
 
 import (
+	"chat/controller"
 	"chat/impl"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
@@ -68,14 +69,17 @@ func httpRoute() http.Handler {
 	e := gin.New()
 	e.Use(gin.Recovery()) //中间件
 	e.GET("/", func(c *gin.Context) {
+		value:=controller.TestRedis()
 		c.JSON(
 			http.StatusOK,
 			gin.H{
 				"code":  http.StatusOK,
 				"error": "Welcome server 01",
+				"value":value,
 			},
 		)
 	})
+	e.GET("/room/create", controller.CreateRoom)
 	return e
 }
 
@@ -89,7 +93,8 @@ func websocketRoute() http.Handler {
 
 func main() {
 
-	//tools.Eloquent.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.User{}) //自动生成表格
+	//tools.Eloquent.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.User{},&models.Room{}) //自动生成表格
+	//log.Panicln(1111)
     httpServer :=&http.Server{
 
         Addr: ":8080",//指定端口

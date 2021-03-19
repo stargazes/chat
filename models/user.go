@@ -10,6 +10,8 @@ type User struct {
     ID        int64  `gorm:"primaryKey"`
     Username  string `gorm:"size:16"`
     Password  string `gorm:"type:varchar(32)"`
+    Phone     string `gorm:"type:varchar(11)`
+    Token     string `gorm:"type:varchar(32)"`
     CreatedAt time.Time
     UpdatedAt time.Time
     DeletedAt gorm.DeletedAt
