@@ -1,26 +1,39 @@
 package controller
 
 import (
+	"chat/middleware"
 	"chat/models"
 	"chat/tools"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 //创建
 func CreateRoom(c *gin.Context) {
 	//接受post传参
 	var room models.Room
-	//room.Name = c.PostForm("roomName")
-	//room.Desc = c.PostForm("desc")
-	room.Name = "lyh"
-	room.Desc = "desc"
+
+	var req models.CreateReq
+
+	if c.ShouldBind(&req) != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"status": tools.FAIL,
+			"msg":    "输入参数有误",
+		})
+		return
+	}
+
+	claim := c.MustGet("claims").(middleware.CustomClaims) //获取中间件设置的token信息，主要拿userId
+	userId, _ := strconv.Atoi(claim.ID)
 	room.RoomHash = tools.GenerateRoomHash()
-	room.UserId = 1
+	room.UserId = int64(userId)
+	room.Name = req.Name
+	room.Desc = req.Desc
 
 	_, err := models.FirstRoom("lyh")
 
-	if err != nil {
+	if err == nil {
 
 		go func() {
 
@@ -47,13 +60,14 @@ func CreateRoom(c *gin.Context) {
 }
 
 type AddForm struct {
-	roomHash string `from:"roomHash"`
-	userId   int64  `from:"userId"`
+	roomHash string `from:"roomHash" binding:"required"`
 }
 
+//加入
 func AddRoom(c *gin.Context) {
 
 	var addForm AddForm
+
 	if c.ShouldBind(&addForm) != nil {
 		//
 		c.JSON(http.StatusOK, gin.H{
@@ -63,8 +77,10 @@ func AddRoom(c *gin.Context) {
 		c.Abort()
 	}
 
-	tools.AddChatRoom(addForm.roomHash,addForm.userId)
-	
+	claim := c.MustGet("claims").(middleware.CustomClaims) //获取中间件设置的token信息，主要拿userId
+	userId, _ := strconv.Atoi(claim.ID)
+	tools.AddChatRoom(addForm.roomHash, int64(userId))
+
 	c.JSON(http.StatusOK, gin.H{
 		"status": tools.SUCCESS,
 		"msg":    "加入成功",

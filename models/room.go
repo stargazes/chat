@@ -17,6 +17,11 @@ type Room struct {
 	DeletedAt gorm.DeletedAt
 }
 
+type CreateReq struct {
+	Name string `form:"name" binding:"required"`
+	Desc string `form:"desc" binding:"required"`
+}
+
 var room Room
 
 //同名判断
