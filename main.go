@@ -13,6 +13,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"time"
 )
 
 var g errgroup.Group //主要为了开启协程，记录协程中日志的错误信息
@@ -36,7 +37,6 @@ func httpRoute() http.Handler {
 	//e.POST("/init", InitModel) //
 	e.POST("/user/register", controller.Register) //用户注册
 	e.POST("/user/login", controller.Login)       //用户登录
-	e.GET("/gmail",controller.Gmail) //gmail测试
 
 	//需要登录才能访问的路由
 	loginRoute := e.Group("/room")
@@ -82,26 +82,26 @@ func InitModel(c *gin.Context)  {
 
 func main() {
 
-	//httpServer := &http.Server{
-	//
-	//	Addr:         ":8081",     //指定端口
-	//	Handler:      httpRoute(), //定义处理函数
-	//	ReadTimeout:  5 * time.Second,
-	//	WriteTimeout: 10 * time.Second,
-	//}
-	//
-	//
-	////go func() {
-	////     httpServer.ListenAndServe()
-	////}()
-	//g.Go(func() error {
-	//	return httpServer.ListenAndServe()
-	//})
-	//
-	//if err := g.Wait(); err != nil {
-	//	log.Fatal(err)
-	//}
-	ListenAndServe(":8000")
+	httpServer := &http.Server{
+
+		Addr:         ":8081",     //指定端口
+		Handler:      httpRoute(), //定义处理函数
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
+	}
+
+
+	//go func() {
+	//     httpServer.ListenAndServe()
+	//}()
+	g.Go(func() error {
+		return httpServer.ListenAndServe()
+	})
+
+	if err := g.Wait(); err != nil {
+		log.Fatal(err)
+	}
+
 
 }
 
