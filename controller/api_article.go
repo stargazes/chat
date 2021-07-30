@@ -47,7 +47,21 @@ func ArticleList(c *gin.Context)  {
 	if c.ShouldBind(articleListReq) == nil {
 
 
-		_, err := models.CreateArticle(&article)
+		result, err := models.ArticleList(&articleListReq)
+
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{
+				"status": tools.SUCCESS,
+				"msg":    "返回成功",
+				"data":   result,
+			})
+
+		}else{
+			c.JSON(http.StatusOK, gin.H{
+				"status": tools.FAIL,
+				"msg":    "请重试",
+			})
+		}
 
 
 	}else {

@@ -51,7 +51,7 @@ func CreateArticle(article *Article) (id int64, err error) {
 }
 
 //文章列表
-func ArticleList(req *ArticleListReq)(articles Article,err error)  {
+func ArticleList(req *ArticleListReq)(articles []Article,err error)  {
 
 	result := tools.Eloquent.Limit(req.Size).Offset(req.Page).Find(&articles)
 
