@@ -34,7 +34,7 @@ func httpRoute() http.Handler {
 			},
 		)
 	})
-	//e.POST("/init", InitModel) //
+	e.GET("/init", InitModel) //
 	e.POST("/user/register", controller.Register) //用户注册
 	e.POST("/user/login", controller.Login)       //用户登录
 
@@ -55,7 +55,7 @@ func httpRoute() http.Handler {
 生成表格
  */
 func InitModel(c *gin.Context)  {
-	err :=tools.Eloquent.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.User{},&models.Room{})
+	err :=tools.Eloquent.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.Article{},&models.Category{},&models.Comment{})
 
 	if err != nil {
 

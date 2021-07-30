@@ -1,8 +1,8 @@
-{"all_time":574200,"client_ip":"::1","level":"info","msg":"","req_method":"POST","req_url":"/user/login","status_code":200,"time":"2021-04-12 19:27:39"}
-{"all_time":0,"client_ip":"::1","level":"info","msg":"","req_method":"POST","req_url":"/user/login","status_code":200,"time":"2021-04-12 19:27:50"}
-all_time":0,"client_ip":"::1","level":"info","msg":"","req_method":"GET","req_url":"/favicon.ico","status_code":404,"time":"2021-04-12 15:58:36"}
-{"all_time":4612737900,"client_ip":"::1","level":"info","msg":"","req_method":"GET","req_url":"/","status_code":200,"time":"2021-04-12 16:15:08"}
-{"all_time":4608451500,"client_ip":"::1","level":"info","msg":"","req_method":"GET","req_url":"/","status_code":200,"time":"2021-04-12 16:15:22"}
+{"all_time":75719000,"client_ip":"127.0.0.1","level":"info","msg":"","req_method":"GET","req_url":"/init","status_code":200,"time":"2021-07-30 14:28:09"}
+{"all_time":77368400,"client_ip":"127.0.0.1","level":"info","msg":"","req_method":"GET","req_url":"/init","status_code":200,"time":"2021-07-30 14:28:56"}
+ime":0,"client_ip":"127.0.0.1","level":"info","msg":"","req_method":"GET","req_url":"/init","status_code":404,"time":"2021-07-30 14:24:25"}
+{"all_time":0,"client_ip":"127.0.0.1","level":"info","msg":"","req_method":"GET","req_url":"/init","status_code":404,"time":"2021-07-30 14:24:27"}
+all_time":4608451500,"client_ip":"::1","level":"info","msg":"","req_method":"GET","req_url":"/","status_code":200,"time":"2021-04-12 16:15:22"}
 {"all_time":4606802900,"client_ip":"::1","level":"info","msg":"","req_method":"GET","req_url":"/","status_code":200,"time":"2021-04-12 16:18:34"}
 {"all_time":4609811800,"client_ip":"::1","level":"info","msg":"","req_method":"GET","req_url":"/","status_code":200,"time":"2021-04-12 16:20:54"}
 {"all_time":4615966800,"client_ip":"::1","level":"info","msg":"","req_method":"GET","req_url":"/","status_code":200,"time":"2021-04-12 16:21:00"}
