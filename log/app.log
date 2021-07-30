@@ -1,4 +1,5 @@
-{"all_time":75719000,"client_ip":"127.0.0.1","level":"info","msg":"","req_method":"GET","req_url":"/init","status_code":200,"time":"2021-07-30 14:28:09"}
+{"all_time":640177800,"client_ip":"127.0.0.1","level":"info","msg":"","req_method":"GET","req_url":"/","status_code":200,"time":"2021-07-30 14:37:17"}
+"}
 {"all_time":77368400,"client_ip":"127.0.0.1","level":"info","msg":"","req_method":"GET","req_url":"/init","status_code":200,"time":"2021-07-30 14:28:56"}
 ime":0,"client_ip":"127.0.0.1","level":"info","msg":"","req_method":"GET","req_url":"/init","status_code":404,"time":"2021-07-30 14:24:25"}
 {"all_time":0,"client_ip":"127.0.0.1","level":"info","msg":"","req_method":"GET","req_url":"/init","status_code":404,"time":"2021-07-30 14:24:27"}
