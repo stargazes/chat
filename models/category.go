@@ -25,7 +25,7 @@ var category Category
 
 //同名判断
 func FirstCategory(cat_name string) (category Category, err error) {
-	if err = tools.Eloquent.Where("cat_name = ?", cat_name).First(&room).Error; err != nil {
+	if err = tools.Eloquent.Where("cat_name = ?", cat_name).First(&article).Error; err != nil {
 		return
 	}
 	return

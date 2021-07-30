@@ -28,7 +28,7 @@ var article Article
 
 //同名判断
 func FirstArticle(name string) (article Article, err error) {
-	if err = tools.Eloquent.Where("name = ?", name).First(&room).Error; err != nil {
+	if err = tools.Eloquent.Where("name = ?", name).First(&article).Error; err != nil {
 		return
 	}
 	return
