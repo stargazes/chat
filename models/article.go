@@ -23,6 +23,10 @@ type ArticleCreateReq struct {
 	Name    string `form:"name" binding:"required"`
 	Content string `form:"content" binding:"required"`
 }
+type ArticleListReq struct {
+	Page int `form:"p" binding:"required"`
+	Size int `form:"r" binding:"required"`
+}
 
 var article Article
 
@@ -39,6 +43,18 @@ func CreateArticle(article *Article) (id int64, err error) {
 
 	result := tools.Eloquent.Create(article)
 	id = article.ID
+	if result.Error != nil {
+		err = result.Error
+		return
+	}
+	return
+}
+
+//文章列表
+func ArticleList(req *ArticleListReq)(articles Article,err error)  {
+
+	result := tools.Eloquent.Limit(req.Size).Offset(req.Page).Find(&articles)
+
 	if result.Error != nil {
 		err = result.Error
 		return

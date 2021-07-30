@@ -30,6 +30,8 @@ func RoutesForAll(e *gin.Engine)  {
 	loginRoute := e.Group("/room")
 	loginRoute.Use(middleware.JWTAuth())
 	{
+		e.POST("/category/create",controller.CreateCategory)//创建分类
+		e.POST("/article/create",controller.CreateArticle)//创建文章
 
 	}
 
